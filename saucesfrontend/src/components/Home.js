@@ -7,16 +7,13 @@ import img4 from '../img/img4.jpg'
 const imgArr = [img1, img4]
 
 const Home = () => {
-
     const randomImg = (arr) => {
         let num = Math.floor(Math.random() * arr.length)
         return arr[num]
     }
-
     return (
         <div className="home-container">
             <img src={randomImg(imgArr)} />
-
         </div>
     )
 }

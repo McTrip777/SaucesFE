@@ -9,6 +9,7 @@ const Navbar = () => {
             <div className="paths">
                 <Link className="shopPath" to="/shop">Shop</Link>
                 <Link className="historyPath" to="/history">History</Link>
+                <Link className="contactPath" to="/contact">Contact</Link>
             </div>
         </div>
     )

@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Home from './components/Home'
 import Shop from './components/Shop'
 import History from './components/History'
+import Contact from './components/Contact'
 
 toast.configure()
 
@@ -17,6 +18,7 @@ const App = () => {
       <Switch>
         <Route path="/shop" component={Shop} />
         <Route path="/history" component={History} />
+        <Route path="/contact" component={Contact} />
         <Route path="/" component={Home} />
       </Switch>
     </div>

@@ -9,16 +9,28 @@ toast.configure()
 const stripe = Stripe('pk_test_51HTvCaChrB4Xa688LL51l1lAOEwAnVu5yDb5xv8D0XcXEh0jq4VDYzRoJZk70kHjEAOQDWd0xUM1gM7iXlEwHEKX004bcYqKLz');
 
 const Shop = () => {
-    const [sauce, setSauce] = useState('Original')
+    const [sauce, setSauce] = useState('Original Honey BBQ')
     const [price, setPrice] = useState(795)
     const [quantity, setQuantity] = useState(1)
+    const [focus, setFocus] = useState(true)
+
+    const quantitySet = (event) => {
+        let num = event.target.value
+        if (num >= 1) {
+            setQuantity(num)
+            newPrice(num)
+        }
+    }
+    const newPrice = (num) => {
+        setPrice(795 * num)
+    }
 
     const checkoutButton = () => {
         stripe.redirectToCheckout({
             lineItems: [{
                 // Define the product and price in the Dashboard first, and use the price
                 // ID in your client-side code.
-                price: '{PRICE_ID}',
+                price,
                 quantity
             }],
             mode: 'payment',
@@ -42,18 +54,30 @@ const Shop = () => {
         }
     }
 
+    const sauceChoice = (event) => {
+        setSauce(event.target.value)
+    }
     return (
         <div className="container">
             <h3>Preachers BBQ Sauce</h3>
-            <p>{sauce} Sauce - ${price / 100}</p>
-            <StripeCheckout
-                onClick={checkoutButton}
-                stripeKey="pk_test_51HTvCaChrB4Xa688LL51l1lAOEwAnVu5yDb5xv8D0XcXEh0jq4VDYzRoJZk70kHjEAOQDWd0xUM1gM7iXlEwHEKX004bcYqKLz"
-                token={handleToken}
-                billingAddress
-                shippingAddress
-                amount={price}
-            />
+            <form>
+                <input type="number" value={quantity} onChange={quantitySet} />
+                <select value={sauce} onChange={sauceChoice}>
+                    <option value='Original Honey BBQ'>Original Honey BBQ</option>
+                    <option value="Smokey Honey BBQ">Smokey Honey BBQ</option>
+                </select>
+            </form>
+
+            <p>Price ${price / 100}</p>
+            {(sauce === 'Original Honey BBQ' || sauce === "Smokey Honey BBQ") ?
+                <StripeCheckout
+                    onClick={checkoutButton}
+                    stripeKey="pk_test_51HTvCaChrB4Xa688LL51l1lAOEwAnVu5yDb5xv8D0XcXEh0jq4VDYzRoJZk70kHjEAOQDWd0xUM1gM7iXlEwHEKX004bcYqKLz"
+                    token={handleToken}
+                    billingAddress
+                    shippingAddress
+                    amount={price}
+                /> : null}
         </div>
     )
 }
